@@ -1,82 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet href="link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="static/cardapio.css">
-    <link rel="shortcut icon" href="static/img/cuscuzeira.ico" type="image/x-icon">
-    <title>Página de Contatos</title>
- 
-</head>
-<body>
+{% extends 'base.html' %}
 
-<br>
-
-    <img src="{{ url_for('static', filename='img/background_nordeste.jpg') }}" id="corpo">
-<form id="contatoForm" class="container">
-    <h1 class="container col-sm-3" id="texto">ENTRE EM CONTATO CONOSCO</h1>
-    <h5 class="container col-sm-3" id="texto">PARA DUVIDAS OU SUGESTÕES</h5>
-            <div class="container col-sm-3">
-                <label class="visually-hidden" for="specificSizeInputGroupUsername">Usuário</label>
-                <div class="input-group">
-                  <div class="input-group-text"><i class="bi bi-person-circle"></i></div>
-                  <input type="text" class="form-control" id="nome" placeholder="Usuário" required>
+{% block content %}
+    <main>
+        <section id="contact">
+            <h2>Entre em Contato</h2>
+            
+            <p>Estamos felizes em ouvir de você. Use os detalhes abaixo para entrar em contato conosco:</p>
+            
+            <div class="contact-info">
+                <div class="contact-card">
+                    <h3>Endereço</h3>
+                    <p>Rua da Empresa, 123</p>
+                    <p>Cidade, Estado</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Telefone</h3>
+                    <p>(11) 1234-5678</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Email</h3>
+                    <p>contato@empresa.com</p>
                 </div>
             </div>
-        <br>
-        <div class="container col-sm-3">
-        <label class="visually-hidden" for="specificSizeInputGroupEmail">Email</label>
-        <div class="input-group">
-          <div class="input-group-text"><i class="bi bi-envelope-at-fill"></i></div>
-          <input type="text" class="form-control" id="email" placeholder="Email" required>
-        </div>
-    </div>
-           <br>
-           <div class="container col-sm-3">
-           <label class="visually-hidden" for="specificSizeInputGroupEmail">Mensagem:</label>
-           <div class="input-group">
-             <div class="input-group-text"><i class="bi bi-envelope-at-fill"></i></div>
-             <textarea type="text" class="form-control" id="mensagem" placeholder="Mensagem" required></textarea>
-           </div>
-       </div>
-           <br>
-           <div class="container col-sm-3">
-            <a  onclick="enviarMensagem()" class=" container btn btn-info">Enviar Mensagem</a>
-            <a href="{{url_for('index')}}" class=" container btn btn-danger">Sair</a>
-        </div>
-        </form>
-        <div id="mensagemResposta"></div>
-        <footer id="rodape">
-            <p>Desenvolvido por Synara Silva &copy; 2023</p>
-        </footer>
-<ul id="lista">
-    <p>ESSA EMPRESA BUSCA EXCELÊNCIA</p>
-    <li><i class="bi bi-phone"> </i>CONTATO <i class="bi bi-arrow-right-circle-fill"></i> (AQUI SEU NÚMERO)</li>
-    <li><i class="bi bi-whatsapp"> </i>WHATSAPP <i class="bi bi-arrow-right-circle-fill"></i> (AQUI SEU WHATSAPP)</li>
-    <li><i class="bi bi-envelope-fill"> </i>EMAIL <i class="bi bi-arrow-right-circle-fill"></i> (AQUI SEU EMAIL)</li>
-</ul>
-
-    <script>
-        function enviarMensagem() {
-            // Aqui você pode adicionar a lógica para enviar a mensagem, por exemplo, enviar para um servidor backend
-
-            // Simulando um envio de mensagem assíncrono
-            setTimeout(function() {
-                var nome = document.getElementById('nome').value;
-                var email = document.getElementById('email').value;
-                var mensagem = document.getElementById('mensagem').value;
-
-                // Exibe a mensagem de resposta
-                document.getElementById('mensagemResposta').innerHTML = `Mensagem enviada por ${nome} (${email}):<br>${mensagem}`;
-
-                // Limpa os campos do formulário
-                document.getElementById('contatoForm').reset();
-            }, 1000); // Tempo de simulação de envio (1 segundo)
-        }
-    </script>
-
-</body>
-
-</html>
+            <br>
+            <div class="contact-form">
+                <h3>Envie-nos uma Mensagem</h3>
+                <form action="#" method="POST">
+                    <!-- Adicione os campos do formulário conforme necessário -->
+                    <div class="form-control">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" class="form-control" name="nome" required>
+                    </div>
+                    <br>
+                    <div class="form-control">        
+                       <label for="email">Email:</label>
+                       <input type="email" id="email" name="email" required>
+                    </div>
+                    <br>
+                    <div class="form-control">
+                        <label for="mensagem">Mensagem:</label>
+                        <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success btn-sm">Enviar Mensagem</button>
+                </form>
+            </div>
+        </section>
+    </main>
+{% endblock %}
