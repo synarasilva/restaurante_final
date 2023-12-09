@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{categorias.descricao}}</h1>
+
+    <main>
+    
+     {% for pratos in pratos %}
+       
+      <div class="category-card">
+          <img src="data:image/jpeg;base64,{{ pratos['imagem'] }}" alt="Pratos">
+
+          <h3><a href="#">{{pratos['nome']}}</a></h3>
+             <div class="intro"><a href="#">{{ pratos['nome'] }}</a></div>
+           <p>{{pratos['descricao']}} </p>  
+    
+           <a href="{{url_for('index')}}" type="button" class="btn btn-danger">Sair</a>
+ 
+      </div>
+      
+    {% endfor%}   
+     
+
+  </main>
+{% endblock %}

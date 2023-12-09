@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/cuscuzeira.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+                      
+    <title>Cardápio do Restaurante</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/cuscuzeira.ico') }}"><p>Restaurante Sabor do Nordeste</p>
+
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Início</a></li>
+                <li><a href="/cardapio">Cardápio</a></li>
+                <li><a href="/reserva">Reservas</a></li>
+                <li><a href="/contatos">Contato</a></li>
+                <li><a href="/login">Administrador</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+
+{% block content %}{% endblock %}
+
+
+
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a>
+            <a href="#"><img src="{{ url_for('static', filename='img/instagram-icon.png') }}" alt="Instagram"></a>
+            <a href="#"><img src="{{url_for ('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a>
+        </div>
+        <p>  Todos os direitos reservados para a turma 3º Módulo DS 2023.2 ETEAVS ❤.</p>
+    </footer>
+</body>
+</html>

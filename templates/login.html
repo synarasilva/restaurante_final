@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet href="link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/cuscuzeira.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="static/cardapio.css">
+    <title>LOGIN ADMINISTRADOR</title>
+</head>
+<body>
+    <form action="login" class="form-control form-control-lg">
+        <img src="{{ url_for('static', filename='img/background_nordeste.jpg') }}" id="corpo">
+
+        <fieldset class="category-card">
+    <div class="form-floating mb-3 category-card">
+        <div class="container">
+        <br>
+        <img src="{{url_for('static', filename='img/user.png') }}" >
+        <br>
+        <label for="usuario">Nome:</label>
+        <br>
+        <input type="text" id="nome" class="form-control">
+    </div>
+    <div class="container">
+        <br>
+        <img src="{{url_for('static', filename='img/senha.png') }}">
+        <br>
+        <label for="usuario">Senha:</label>
+        <br>
+        <input type="password" id="senha" class="form-control">
+        <br>
+        <button class="btn btn-info" value="logar" onclick="logar();return false"><i class="bi bi-door-closed-fill"></i>Login</button>
+        <div class="container col-sm-3" id="botao_sair">
+            <a href="{{url_for('index')}}" type="button" class=" container btn btn-outline-danger"><i class="bi bi-door-open-fill"></i>Sair</a>
+        </div>
+    </div>
+    </div>
+</fieldset>
+</form>
+<footer>
+    <p>Desenvolvido por Synara Silva &copy; 2023</p>
+</footer>
+</body>
+    <script>
+        function logar(){
+            var nome = document.getElementById('nome').value;
+            var senha = document.getElementById('senha').value;
+            if (nome == 'admin' && senha == '123'){
+                alert('sucesso')
+                location.href = "admin/painel";   
+            } else {
+                // Credenciais incorretas, você pode exibir uma mensagem de erro ou realizar outras ações
+                alert('Credenciais incorretas. Tente novamente.');
+            }
+        }
+    </script>
+</html>

@@ -1,0 +1,37 @@
+{% extends 'base_adm.html' %}
+
+{% block title %}
+  Listar Pratos
+{% endblock %}
+
+{% block css %}{% endblock %}
+
+{% block conteudo %}
+ 
+ <h2>Listar Pratos</h2>
+ <table class="table table-light table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Categoria_id</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pratos in pratos %}
+            <tr>             
+                <td>{{pratos['nome']}}</td>
+                <td>{{pratos['descricao']}}</td>
+                <td>{{pratos['categoria_id']}}</td>
+                <td><a href="{{url_for('editar_pratos', id=pratos['id'])}}" class="btn btn-info">Editar</a></td>
+                <td><a href="{{url_for('excluir_pratos', id=pratos['id'])}}" class="btn btn-danger">Excluir</a></td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}
+
+{% block js %}{% endblock %}
