@@ -1,0 +1,33 @@
+{% extends 'base_adm.html' %}
+
+{% block title %}
+  Listar Reserva
+{% endblock %}
+
+{% block css %}{% endblock %}
+
+{% block conteudo %}
+ 
+ <h2>Listar Reserva</h2>
+ <table  class="table table-light table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+            <tr>             
+                <td>{{reserva['nome']}}</td>
+                <td>{{reserva['Data']}}</td>
+                <td><a href="#" class="btn btn-info">Editar</a></td>
+                <td><a href="#" class="btn btn-danger">Excluir</a></td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}
+{% block js %}
+{% endblock %}

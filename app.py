@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import base64
+import jsonify
 
 
 #cria o objeto app
@@ -197,17 +198,33 @@ def listar(id):
 
 
 # Rota para página reserva de mesas
-@app.route("/reserva")
+@app.route('/admin/reserva', methods=['GET', 'POST'])
 def reserva():
-    return render_template('reserva.html')
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        data = request.form.get('data')
+
+        # Certifique-se de ter a função get_db_connection no arquivo db.py
+        conn = get_db_connection()
+        conn.execute('INSERT INTO reserva (nome, data) VALUES (?, ?)',
+                     (nome, data))
+
+        conn.commit()
+        conn.close()
+        return redirect(url_for('lista_reserva'))
+    return render_template('admin2/reserva.html')
+
+
 @app.route("/comprar")
 def comprar():
     return render_template('comprar.html')
-# Rota para listar duvidas
-@app.route("/admin/listar")
-def duvidas():
-    return render_template('admin/listar.html')
 
+@app.route("/admin/listar_reserva", methods=['GET'])
+def listar_reserva():
+    conn = get_db_connection()
+    reserva = conn.execute('SELECT * FROM reserva').fetchall()
+    conn.close()
+    return render_template('admin2/listar_reserva.html', reserva=reserva)
 # Rota para Contatos
 @app.route("/contatos")
 def contatos():

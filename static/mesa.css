@@ -18,7 +18,8 @@
 #div{
     border: 2px black solid ;
     width: 25%;
-    margin-top: -23%;
+    margin-top: 2%;
+    right: -80%;
 }
 
 #botao{
