@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import base64
-import jsonify
-
+from datetime import datetime
 
 #cria o objeto app
 app = Flask(__name__ , static_folder='static')
@@ -196,24 +195,67 @@ def listar(id):
     conn.close()
     return render_template('listar.html',pratos=pratos, categorias=categorias)
 
-
-# Rota para página reserva de mesas
 @app.route('/admin/reserva', methods=['GET', 'POST'])
 def reserva():
     if request.method == 'POST':
         nome = request.form.get('nome')
-        data = request.form.get('data')
+        data_str = request.form.get('data')  # Assumindo que data está no formato "d/m/a"
+        mesa = request.form.get('mesa')
 
-        # Certifique-se de ter a função get_db_connection no arquivo db.py
+        try:
+            # Converte a string de data para o formato correto (ano-mês-dia)
+            data_formatada = datetime.strptime(data_str, '%Y-%m-%dT%H:%M').strftime('%d/%m/%Y %H:%M')
+        except ValueError:
+            # Tratar erro de conversão
+            return render_template('admin2/reserva.html', error="Formato de data inválido")
+
         conn = get_db_connection()
-        conn.execute('INSERT INTO reserva (nome, data) VALUES (?, ?)',
-                     (nome, data))
+
+        # Insira os dados na tabela de reservas
+        conn.execute('INSERT INTO reserva (nome, data, mesa) VALUES (?, ?, ?)', (nome, data_formatada, mesa))
 
         conn.commit()
         conn.close()
-        return redirect(url_for('lista_reserva'))
-    return render_template('admin2/reserva.html')
 
+        # Redireciona para a lista de reservas após o cadastro
+        return redirect(url_for('listar_reserva'))
+
+    return render_template('admin2/reserva.html')
+# Rota para excluir reserva
+@app.route("/admin/excluir_reserva/<int:id>", methods=['GET', 'POST'])
+def excluir_reserva(id):
+    conn = get_db_connection()
+    reserva = conn.execute('SELECT * FROM reserva WHERE id = ?',(id,)).fetchone()
+
+    if request.method == 'POST':
+        conn.execute('DELETE FROM reserva WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_reserva'))
+    conn.close()
+    return render_template('/admin2/excluir_reserva.html', reserva=reserva)
+# Rota para editar Reserva
+@app.route("/admin/editar_reserva/<int:id>", methods=['GET', 'POST'])
+def editar_reserva(id):
+    conn = get_db_connection()
+    reserva = conn.execute('SELECT * FROM reserva WHERE id = ?', (id,)).fetchone()
+
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        data = request.form.get('data')
+        mesa = request.form.get('mesa')
+
+        # Certifique-se de ter a função get_db_connection no arquivo db.py
+        conn = get_db_connection()
+        conn.execute('UPDATE reserva SET nome=?, data=?, mesa=? WHERE id=?',
+                     (nome, data, mesa, id))
+
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_reserva'))
+
+    conn.close()
+    return render_template('admin2/editar_reserva.html', reserva=reserva)
 
 @app.route("/comprar")
 def comprar():

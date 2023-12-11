@@ -1,0 +1,35 @@
+{% extends 'base_adm.html' %}
+
+{% block title %}
+  Editar Reserva
+{% endblock %}
+
+{% block css %}{% endblock %}
+
+{% block conteudo %}
+ 
+ <h2>Editar Reserva</h2>
+   <form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" class="form-control" id="nome" name="nome" value="{{ reserva['nome'] }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="data" class="form-label">Descrição:</label>
+        <input type="text" class="form-control" id="data" name="data" placeholder="Dia/Mês/Ano -H:s" value="{{ reserva['data'] }}"  required>
+
+    </div>
+
+    <div class="mb-3">
+        <label for="mesa" class="form-label">Mesa Atual:</label>
+        <input type="text" class="form-control" id="mesa" name="mesa" value="{{ reserva['mesa'] }}" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+</form>
+
+
+{% endblock %}
+
+{% block js %}{% endblock %}

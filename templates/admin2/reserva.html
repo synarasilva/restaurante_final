@@ -37,13 +37,20 @@
     </div>
     <br>
     <div class="container col-sm-3">
-      <label class="visually-hidden" for="data">Data:</label>
+      <label for="data" class="form-label">Data (d/m/a):</label>
         <div class="input-group">
           <div class="input-group-text"><i class="bi bi-calendar"></i></div>
-          <input type="datetime-local" class="form-control" name="data" id="data" placeholder="Data">
+          <input type="text" class="form-control" id="data" name="data" placeholder="Dia/Mês/Ano" required>
         </div>
       <br>
-        <a href="#" type="submit" class="container col-sm-3 btn btn-outline-info" onclick="enviarFormulario()" id="botao">Enviar</a>
+    <div class="container">
+      <label class="visually-hidden" for="data">Mesa:</label>
+        <div class="input-group">
+          <div class="input-group-text"><i class="bi bi-table"></i></div>
+          <input type="text" class="form-control" name="mesa" id="mesa" placeholder="Mesa">
+        </div>
+        <br>
+        <button type="submit" class="container col-sm-3 btn btn-outline-info" id="botao" onclick="meuFormulario()">Enviar</button>
         <a href="{{url_for('index')}}" type="button" class=" container col-sm-3 btn btn-outline-danger" id="botao">Sair</a>
       <div id="mensagemResposta"></div>
     </div>
@@ -53,7 +60,7 @@
 
 </form>
   
-
+<br><br>
 {% endblock %}
 
 {% block js %}{% endblock %}
