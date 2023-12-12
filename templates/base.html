@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{url_for('static', filename='img/cuscuzeira.ico') }}" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
                       
     <title>Cardápio do Restaurante</title>
 </head>
@@ -16,10 +17,11 @@
         </div>
         <nav>
             <ul>
+                <li><a href="/comprar"><i class="bi bi-cart4"></i></a></li>
                 <li><a href="/">Início</a></li>
                 <li><a href="/cardapio">Cardápio</a></li>
                 <li><a href="/admin/reserva">Reservas</a></li>
-                <li><a href="/contatos">Contato</a></li>
+                <li><a href="/admin/contatos">Contato</a></li>
                 <li><a href="/login">Administrador</a></li>
 
             </ul>
@@ -31,7 +33,7 @@
 
 
 
-
+{% block footer %}
     <footer>
         <div class="social-icons">
             <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a>
@@ -40,5 +42,6 @@
         </div>
         <p>  Todos os direitos reservados para a turma 3º Módulo DS 2023.2 ETEAVS ❤. &copy; </p>
     </footer>
+    {% endblock %}
 </body>
 </html>

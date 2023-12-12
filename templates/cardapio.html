@@ -10,7 +10,6 @@
             <img src="data:image/jpeg;base64,{{ categorias['imagem'] }}" alt="Categoria 1">
 
             <h3><a>{{categorias['nome']}}</a></h3>
-               <div class="intro"><a href="comprar">comprar</a></div>
              <p>{{categorias['descricao']}} </p>  
       
         </div>
@@ -19,8 +18,6 @@
 </main>
 
 <main>
-    <div class=" col-sm-3">
-        <a href="{{url_for('index')}}"  class="btn btn-danger">Sair</a>
-</div>
+
 
 {% endblock %}

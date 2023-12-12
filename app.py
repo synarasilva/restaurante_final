@@ -194,7 +194,7 @@ def listar(id):
     conn.commit()
     conn.close()
     return render_template('listar.html',pratos=pratos, categorias=categorias)
-
+# Rota para Cadastrar reserva
 @app.route('/admin/reserva', methods=['GET', 'POST'])
 def reserva():
     if request.method == 'POST':
@@ -221,6 +221,7 @@ def reserva():
         return redirect(url_for('listar_reserva'))
 
     return render_template('admin2/reserva.html')
+
 # Rota para excluir reserva
 @app.route("/admin/excluir_reserva/<int:id>", methods=['GET', 'POST'])
 def excluir_reserva(id):
@@ -260,17 +261,81 @@ def editar_reserva(id):
 @app.route("/comprar")
 def comprar():
     return render_template('comprar.html')
-
+# Rota para listar reservas
 @app.route("/admin/listar_reserva", methods=['GET'])
 def listar_reserva():
     conn = get_db_connection()
     reserva = conn.execute('SELECT * FROM reserva').fetchall()
     conn.close()
     return render_template('admin2/listar_reserva.html', reserva=reserva)
-# Rota para Contatos
-@app.route("/contatos")
+
+#cadastrar contatos
+@app.route("/admin/contatos", methods=['GET', 'POST'])
 def contatos():
-    return render_template('contatos.html')
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        mensagem = request.form.get('mensagem')
+
+        if nome and email and mensagem:
+            conn = get_db_connection()
+            conn.execute('INSERT INTO contato (nome, email, mensagem) VALUES (?, ?, ?)', 
+                         (nome, email, mensagem))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('listar_contatos'))
+
+    return render_template('admin2/contatos.html')
+
+# Rota para listar contatos
+@app.route('/admin/listar_contatos', methods=['GET'])
+def listar_contatos():
+    # Conecta-se ao banco de dados
+    conn = get_db_connection()
+    # Executa a consulta para obter contatos
+    contatos = conn.execute('SELECT * FROM contato').fetchall()
+    # Fecha a conexão com o banco de dados
+    conn.close()
+    # Renderiza a página HTML com os contatos
+    return render_template('admin2/listar_contatos.html', contatos=contatos)
+
+# Rota para editar contatos
+@app.route("/admin/editar_contatos/<int:id>", methods=['GET', 'POST'])
+def editar_contatos(id):
+    conn = get_db_connection()
+    contato = conn.execute('SELECT * FROM contato WHERE id = ?', (id,)).fetchone()
+
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        mensagem = request.form.get('mensagem')
+
+        # Certifique-se de ter a função get_db_connection no arquivo db.py
+        conn = get_db_connection()
+        conn.execute('UPDATE contato SET nome=?, email=?, mensagem=? WHERE id=?',
+                     (nome, email, mensagem, id))
+
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_contatos'))
+
+    conn.close()
+    return render_template('admin2/editar_contatos.html', contato=contato)
+
+# Rota para excluir contatos
+@app.route("/admin/excluir_contatos/<int:id>", methods=['GET', 'POST'])
+def excluir_contatos(id):
+    conn = get_db_connection()
+    contato = conn.execute('SELECT * FROM contato WHERE id = ?',(id,)).fetchone()
+
+    if request.method == 'POST':
+        conn.execute('DELETE FROM contato WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listar_contatos'))
+    conn.close()
+    return render_template('/admin2/excluir_contatatos.html', contato=contato)
+
 # cria a rota index
 @app.route("/")
 def index():
