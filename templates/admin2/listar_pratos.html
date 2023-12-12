@@ -14,6 +14,8 @@
                 <tr>
                     <th>Nome</th>
                     <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Quantidae</th>
                     <th>Categoria_id</th>
                     <th>Editar</th>
                     <th>Excluir</th>
@@ -24,6 +26,8 @@
             <tr>             
                 <td>{{pratos['nome']}}</td>
                 <td>{{pratos['descricao']}}</td>
+                <td>{{pratos['preco']}}</td>
+                <td>{{pratos['quantidade']}}</td>
                 <td>{{pratos['categoria_id']}}</td>
                 <td><a href="{{url_for('editar_pratos', id=pratos['id'])}}" class="btn btn-info">Editar</a></td>
                 <td><a href="{{url_for('excluir_pratos', id=pratos['id'])}}" class="btn btn-danger">Excluir</a></td>

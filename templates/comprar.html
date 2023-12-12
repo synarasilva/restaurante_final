@@ -1,105 +1,81 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-
-<link rel="stylesheet" href="{{ url_for('static', filename='carinho.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='comprar.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <body id="body">
 <header id="header">
-    <span >Carrinho de Compras <b>Sabor do Nordeste</b></span>
+    <span id="span">Carrinho de Compras <b>Sabor do Nordeste</b></span>
 </header> 
-     <main>
-        <div class="page-title container">Seu carrinho</div>
-        <div class="content">
-            <section>
-                <table class="table table-striped table-hover table-light" id="table">
-                    <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th>Preço</th>
-                            <th>Quantidade</th>
-                            <th>Total</th>
-                            <th>~</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="product">
-                                    <img src="{{ url_for('static', filename='img/categoria.jfif') }}" alt="">
-                                    <div class="info">
-                                        <div class="name">Nome do Produto</div>
-                                        <div class="category">Categoria</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>R$120</td>
-                            <td>
-                                <div class="qty">
-                                    <button><i class="bx bx-minus"></i></button>
-                                    <span>2</span>
-                                    <button><i class="bx bx-plus"></i></button>
-                                </div>
-                            </td>
-                            <td>R$240</td>
-                            <th><button class="remove"><i class="bx bx-x"></i></button></td>
-                        </tr>
+<main id="main">
+    <div class="page-title container">Seu carrinho</div>
+    <div class="content">
+        <section>
+            <table class="table table-striped table-hover table-light" id="table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                        <th>~</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pratos in pratos %}
                         <tr>
                             <td>
                                 <div class="product">
-                                    <img src="{{ url_for('static', filename='img/buchada.jfif') }}" alt="">
+                                    <img src="data:image/jpeg;base64,{{ pratos['imagem'] }}" id="imagem" alt="Pratos">
                                     <div class="info">
-                                        <div class="name">Nome do Produto</div>
-                                        <div class="category">Categoria</div>
+                                        <div class="name"><p>{{ pratos['nome'] }}</p></div>
+                                        <div class="category">{{ pratos['descricao'] }}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td>R$120</td>
+                            <td>R${{ pratos['preco'] }}</td>
+                           <!-- Seu HTML -->
                             <td>
-                                <div class="qty">
-                                    <button><i class="bx bx-minus"></i></button>
-                                    <span>2</span>
-                                    <button><i class="bx bx-plus"></i></button>
-                                </div>
+                              <div class="qty">
+                               <button id="button" class="btn-minus" onclick="decrementarQuantidade(this)">
+                               <i class="bx bx-minus"></i></button>
+                                <span class="quantidade">{{ pratos['quantidade'] }}</span>
+                               <button id="button" class="btn-plus" onclick="incrementarQuantidade(this)">
+                               <i class="bx bx-plus"></i></button>
+                               </div>
                             </td>
-                            <td>R$240</td>
-                            <th><button class="remove"><i class="bx bx-x"></i></button></td>
-                            </tr>
-                    </tbody>
-                </table>
-            </section>
-            <aside>
-                <div class="box">
-                    <header>Resumo da compra </header>
-                    <div class="info">
-                        <div><span>Sub-total</span><span>R$418</span></div>
-                        <div><span>Frete</span><span>Gratuito</span></div>
-                        <div><button id="button1">
-                            Adicionar Cupom de desconto 
-                            <i class="bx bx-right-arrow-alt" id="i"></i>
-                        </button>
-                        </div>
-                    </div>
-                    <footer id="footer">
-                        <span>Total</span>
-                        <span>R$418</span>
-                    </footer>
-                </div>
-            
-              
-                <button id="button">Finalizar Compra</button>
-            </aside>
-        </div>
-        <script src="{{ url_for('static', filename='js/carrinho.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-     </main>
+                            <td class="subtotal">R${{ pratos['preco'] }}</td>
+                            <th><a href="{{url_for('excluir_pratos', id=pratos['id'])}}" class="remove"><i class="bx bx-x"></i></a></th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <aside>
+            <div class="box">
+                <header>Resumo da compra</header>
+                <div class="info">
+                    <div><span>Sub-total</span><span id="sub-total">R$0.00</span></div>
+                    <div><span>Frete</span><span>Gratuito</span></div>
+                    <div><button id="button1">
+                        Adicionar Cupom de desconto 
+                        <i class="bx bx-right-arrow-alt" id="i"></i>
+                    </button></div>
+                </div>
+                <footer id="footer">
+                    <span>Total</span>
+                    <span id="total">R$0.00</span>
+                </footer>
+            </div>
+            <button id="button-finalizar">Finalizar Compra</button>
+        </aside>
+    </div>
+</main>
 
 </body>
+<script src="{{ url_for('static', filename='js/carrinho.js') }}"></script>
 
-{% endblock %}
-{% block footer %}
 {% endblock %}

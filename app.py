@@ -105,14 +105,16 @@ def cadastrar_pratos():
         nome_pratos = request.form.get('nome_pratos')
         descricao = request.form.get('descricao')
         imagem = request.files.get('imagem')  # Obtém o arquivo de imagem enviado
+        preco = request.form.get('preco')
+        quantidade = request.form.get('quantidade')
         categoria_id = request.form.get('categoria_id')
         if cadastrar_pratos:
             conn = get_db_connection()
 
             if imagem:  # Se uma imagem foi enviada
                 imagem_base64 = base64.b64encode(imagem.read()).decode('utf-8')
-                conn.execute('INSERT INTO pratos (nome, descricao, imagem, categoria_id) VALUES (?, ?, ?, ?)',
-                             (nome_pratos, descricao, imagem_base64, categoria_id,))
+                conn.execute('INSERT INTO pratos (nome, descricao, imagem, preco, quantidade, categoria_id) VALUES (?, ?, ?, ?, ?)',
+                             (nome_pratos, descricao, imagem_base64, preco,quantidade, categoria_id,))
             else:
                 conn.execute('INSERT INTO pratos (nome, descricao) VALUES (?, ?)',
                              (nome_pratos, descricao))
@@ -147,6 +149,7 @@ def editar_pratos(id):
         nome_pratos = request.form.get('nome_pratos')
         descricao = request.form.get('descricao')
         imagem = request.files.get('imagem') # Obtém o arquivo de imagem enviado
+        preco = request.form.get('preco')
         categoria_id = request.form.get('categoria_id') 
         if nome_pratos:
             conn = get_db_connection()
@@ -154,8 +157,8 @@ def editar_pratos(id):
             if imagem:  # Se uma imagem foi enviada
                 imagem_base64 = base64.b64encode(imagem.read()).decode('utf-8')
               
-                conn.execute('UPDATE pratos SET nome=?, descricao=?,image=?,categoria_id,=? WHERE id=?', 
-                         (nome_pratos, descricao,imagem_base64, categoria_id, id,))
+                conn.execute('UPDATE pratos SET nome=?, descricao=?,image=?, preco, categoria_id,=? WHERE id=?', 
+                         (nome_pratos, descricao,imagem_base64, preco, categoria_id, id,))
             conn.commit()
             conn.close()
             return redirect(url_for('listar_pratos'))
@@ -258,9 +261,6 @@ def editar_reserva(id):
     conn.close()
     return render_template('admin2/editar_reserva.html', reserva=reserva)
 
-@app.route("/comprar")
-def comprar():
-    return render_template('comprar.html')
 # Rota para listar reservas
 @app.route("/admin/listar_reserva", methods=['GET'])
 def listar_reserva():
@@ -334,8 +334,17 @@ def excluir_contatos(id):
         conn.close()
         return redirect(url_for('listar_contatos'))
     conn.close()
-    return render_template('/admin2/excluir_contatatos.html', contato=contato)
+    return render_template('/admin2/excluir_contatos.html', contato=contato)
 
+   # rota do carrinho 
+@app.route("/comprar")
+def comprar():
+    conn = get_db_connection()
+    categorias = conn.execute('SELECT * FROM categorias').fetchall()    
+    pratos = conn.execute( 'SELECT * FROM pratos',).fetchall()
+    conn.commit()
+    conn.close() 
+    return render_template('comprar.html',categorias=categorias,pratos=pratos)
 # cria a rota index
 @app.route("/")
 def index():

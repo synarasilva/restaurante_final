@@ -23,7 +23,7 @@
                 <td>{{reserva['nome']}}</td>
                 <td>{{reserva['Data']}}</td>
                 <td>{{reserva['Mesa']}}</td>
-                <td><a href="{{url_for('editar_reserva', id=reserva['id'])}}" class="btn btn-info">Editar</a></td>
+                <td><a href="{{url_for('editar_pratos', id=reserva['id'])}}" class="btn btn-info">Editar</a></td>
                 <td><a href="{{url_for('excluir_reserva', id=reserva['id'])}}" class="btn btn-danger">Excluir</a></td>
             </tr>
                 {% endfor %}
