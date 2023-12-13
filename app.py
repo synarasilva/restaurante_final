@@ -113,7 +113,7 @@ def cadastrar_pratos():
 
             if imagem:  # Se uma imagem foi enviada
                 imagem_base64 = base64.b64encode(imagem.read()).decode('utf-8')
-                conn.execute('INSERT INTO pratos (nome, descricao, imagem, preco, quantidade, categoria_id) VALUES (?, ?, ?, ?, ?)',
+                conn.execute('INSERT INTO pratos (nome, descricao, imagem, preco, quantidade, categoria_id) VALUES (?, ?, ?, ?, ?, ?)',
                              (nome_pratos, descricao, imagem_base64, preco,quantidade, categoria_id,))
             else:
                 conn.execute('INSERT INTO pratos (nome, descricao) VALUES (?, ?)',
@@ -345,6 +345,7 @@ def comprar():
     conn.commit()
     conn.close() 
     return render_template('comprar.html',categorias=categorias,pratos=pratos)
+
 # cria a rota index
 @app.route("/")
 def index():
